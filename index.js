@@ -48,6 +48,18 @@ app.get("/tasks", async (req, res) => {
   }
 });
 
+// API create a new task
+app.post("/tasks", async (req, res) => {
+  try {
+    const { title, description, category, order } = req.body;
+    const newTask = new Task({ title, description, category, order });
+    await newTask.save();
+    io.emit("update", { action: "create", task: newTask });
+    res.status(201).json(newTask);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

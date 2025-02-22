@@ -21,7 +21,15 @@ const TaskSchema = new mongoose.Schema({
   timestamp: { type: Date, default: Date.now },
   order: { type: Number, default: 0 },
 });
+const UserSchema = new mongoose.Schema({
+  name: { type: String, required: true, maxlength: 50 },
+  photo: { type: String, },
+  email: { type: String, required: true, unique: true, },
+  timestamp: { type: Date, default: Date.now },
+
+});
 const Task = mongoose.model("Task", TaskSchema);
+const User = mongoose.model("User", UserSchema);
 
 const app = express();
 app.use(cors());
@@ -32,10 +40,27 @@ const io = new Server(server, { cors: { origin: "*" } });
 
 //Socket.io connection for realtime updates
 io.on("connection", (socket) => {
-  console.log("New client connected");
+
   socket.on("disconnect", () => {
     console.log("Client disconnected");
   });
+});
+
+
+
+// user api
+app.post("/user", async (req, res) => {
+  const userinfo = req.body;
+  console.log(userinfo);
+  const user = await User.findOne({ email: userinfo.email });
+  if (user) {
+    return res.send({ message: "User already exists" });
+  }
+  const response = await User.create({
+    ...userinfo,
+    createdAt: new Date(),
+  });
+  res.send(response);
 });
 
 // API endpoint all tasks

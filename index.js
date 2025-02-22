@@ -38,6 +38,16 @@ io.on("connection", (socket) => {
   });
 });
 
+// API endpoint all tasks
+app.get("/tasks", async (req, res) => {
+  try {
+    const tasks = await Task.find().sort({ order: 1 });
+    res.json(tasks);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -61,5 +61,31 @@ app.post("/tasks", async (req, res) => {
   }
 });
 
+// update a task (e.g., when moving between columns)
+app.put("/tasks/:id", async (req, res) => {
+  try {
+    const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    io.emit("update", { action: "update", task: updatedTask });
+    res.json(updatedTask);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+//delete a task
+app.delete("/tasks/:id", async (req, res) => {
+  try {
+    const deletedTask = await Task.findByIdAndDelete(req.params.id);
+    io.emit("update", { action: "delete", task: deletedTask });
+    res.json(deletedTask);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
+
+
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

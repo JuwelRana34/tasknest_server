@@ -2,6 +2,9 @@
 
 A collaborative task management application built with **Node.js, Express, MongoDB, and Socket.io**, providing real-time updates and secure user authentication.  
 
+## 🌍 Live Demo  
+🔗 [TaskNest Live](https://tasknest-bd.web.app/) 
+
 ## 📑 Table of Contents  
 
 - [Features](#-features)  
@@ -58,11 +61,3 @@ npm install
 - **PORT:** Server port (default: `3000`)  
 - **MONGO_URI:** MongoDB connection string  
 - **JWT_SECRET:** Secret key for JSON Web Tokens  
-
-## 🤝 Contributing  
-
-Feel free to fork this repo, submit pull requests, or report issues!  
-
-## 📜 License  
-
-This project is licensed under the **MIT License**.  

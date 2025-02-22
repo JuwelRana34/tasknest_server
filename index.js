@@ -23,10 +23,9 @@ const TaskSchema = new mongoose.Schema({
 });
 const UserSchema = new mongoose.Schema({
   name: { type: String, required: true, maxlength: 50 },
-  photo: { type: String, },
-  email: { type: String, required: true, unique: true, },
+  photo: { type: String },
+  email: { type: String, required: true, unique: true },
   timestamp: { type: Date, default: Date.now },
-
 });
 const Task = mongoose.model("Task", TaskSchema);
 const User = mongoose.model("User", UserSchema);
@@ -40,13 +39,10 @@ const io = new Server(server, { cors: { origin: "*" } });
 
 //Socket.io connection for realtime updates
 io.on("connection", (socket) => {
-
   socket.on("disconnect", () => {
     console.log("Client disconnected");
   });
 });
-
-
 
 // user api
 app.post("/user", async (req, res) => {
@@ -109,8 +105,6 @@ app.delete("/tasks/:id", async (req, res) => {
     res.status(500).send(err);
   }
 });
-
-
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
